@@ -1,8 +1,13 @@
+//NDK-BUILD (JNI)
+//
 apply plugin: 'com.android.application'
 
 android {
     namespace 'ark.use.sishen'
     compileSdkVersion 35
+    def sdkDir = android.sdkDirectory
+    ndkVersion = "29.0.13113456"//27.0.12077973
+    ndkPath = "$sdkDir/ndk/29.0.13113456-obf"//27.0.12077973-obf
     defaultConfig {
         applicationId "ark.use.sishen"
         minSdkVersion 24
@@ -13,6 +18,23 @@ android {
             abiFilters 'arm64-v8a'
         }
         signingConfig signingConfigs.debug
+
+        /* externalNativeBuild {
+            ndkBuild {
+
+                def ndkDir = android.ndkDirectory
+                def obfLib = "$ndkDir/toolchains/llvm/prebuilt/darwin-x86_64/lib/libHikari.so"
+
+                cFlags  "-fvisibility=hidden",
+                        "-fpass-plugin=${obfLib}",
+                        "-Xclang", "-load", "-Xclang=${obfLib}"
+                cppFlags "-fvisibility=hidden",
+                        "-fpass-plugin=${obfLib}",
+                        "-Xclang", "-load", "-Xclang=${obfLib}"
+
+                cppFlags "-mllvm", "-enable-strcry"
+            }
+        } */
 
     }
 
@@ -30,11 +52,10 @@ android {
     }
     externalNativeBuild {
         ndkBuild {
-            path file('src/main/jni/Android.mk')
+            path file('src/main/cpp/Android.mk')
         }
     }
     namespace 'ark.use.sishen'
-    ndkVersion '28.0.12674087 rc2'
     buildToolsVersion '35.0.0'
 
 }
@@ -43,3 +64,71 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
+
+
+//CMAKE
+//
+//apply plugin: 'com.android.application'
+//
+//android {
+//    compileSdkVersion 35
+//    def sdkDir = android.sdkDirectory
+//    ndkVersion = "29.0.13113456"//27.0.12077973
+//    ndkPath = "$sdkDir/ndk/29.0.13113456-obf"//27.0.12077973-obf
+//    buildToolsVersion "35.0.0"
+//
+//    namespace "ark.use.sishen"
+//
+//    defaultConfig {
+//        applicationId "ark.use.sishen"
+//        minSdkVersion 24
+//        targetSdkVersion 35
+//        versionCode 1
+//        versionName "1.0"
+//
+//        ndk {
+//            abiFilters "arm64-v8a"
+//        }
+//
+//        /* externalNativeBuild {
+//            cmake {
+//
+//                def ndkDir = android.ndkDirectory
+//                def obfLib = "$ndkDir/toolchains/llvm/prebuilt/darwin-x86_64/lib/libHikari.so"
+//
+//                cFlags  "-fvisibility=hidden",
+//                        "-fpass-plugin=${obfLib}",
+//                        "-Xclang", "-load", "-Xclang", "${obfLib}"
+//                cppFlags "-fvisibility=hidden",
+//                        "-fpass-plugin=${obfLib}",
+//                        "-Xclang", "-load", "-Xclang", "${obfLib}"
+//
+//                cppFlags "-mllvm", "-enable-strcry"
+//            }
+//        } */
+//    }
+//
+//    externalNativeBuild {
+//        cmake {
+//            path "src/main/cpp/CMakeLists.txt"
+//            version "3.18.1"
+//        }
+//    }
+//
+//    buildTypes {
+//        release {
+//            shrinkResources false
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+//        }
+//        debug {
+//            shrinkResources false
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+//        }
+//    }
+//}
+//
+//dependencies {
+//    implementation fileTree(dir: 'libs', include: ['*.jar'])
+//}

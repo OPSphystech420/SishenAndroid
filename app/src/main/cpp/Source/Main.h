@@ -2,6 +2,8 @@
 
 #include "UnrealEngine/ScriptCore.h"
 #include "GameStructs.h"
+#include <queue>
+#include <functional>
 
 inline FIntPoint GCanvasSize = {};
 

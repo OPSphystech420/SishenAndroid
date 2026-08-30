@@ -78,7 +78,7 @@ inline bool IsPrimalStructureOrShooterCharacter(UObject* Actor)
 
 FORCEINLINE FVector GetActorLocation(UObject* Actor)
 {
-    if (USceneComponent* RootComponent = *Actor->GetMember<USceneComponent*>("RootComponent"))
+    if (USceneComponent* RootComponent = *Actor->GetMember<USceneComponent*>(SPECK_OBFUSCATE("RootComponent")))
     {
         const FTransform& ComponentToWorld = *(FTransform*)((uint8*)RootComponent + Off::ComponentToWorld);
         return ComponentToWorld.GetLocation();

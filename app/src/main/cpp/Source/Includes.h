@@ -16,6 +16,7 @@
 #include <android/native_window_jni.h>
 #include <json.hpp>
 #include "obfuscate.h"
+#include "speck.h"
 
 typedef int8_t int8;
 typedef int16_t int16;
